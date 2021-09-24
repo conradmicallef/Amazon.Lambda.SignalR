@@ -48,7 +48,7 @@ namespace Amazon.Lambda.SignalR.Tests
             await _connectionStore.AddConnectionToGroupAsync(connectionIdA, groupName);
             var connect = (await _connectionStore.GetClient(connectionIdA)).SingleOrDefault();
             Assert.NotNull(connect);
-            Assert.True(connect.GroupIds.Contains(groupName));
+            Assert.Contains(groupName, connect.GroupIds);
         }
 
         [Fact]
@@ -110,8 +110,8 @@ namespace Amazon.Lambda.SignalR.Tests
             await _connectionStore.StoreConnectionAsync(connectionIdA, userIdA);
             await _connectionStore.StoreConnectionAsync(connectionIdB, userIdA);
 
-            Assert.True((await _connectionStore.GetAllClients()).Select(x => x.ConnectionId).Contains(connectionIdA));
-            Assert.True((await _connectionStore.GetAllClients()).Select(x => x.ConnectionId).Contains(connectionIdB));
+            Assert.Contains(connectionIdA, (await _connectionStore.GetAllClients()).Select(x => x.ConnectionId));
+            Assert.Contains(connectionIdB, (await _connectionStore.GetAllClients()).Select(x => x.ConnectionId));
         }
 
         [Fact]
@@ -121,8 +121,8 @@ namespace Amazon.Lambda.SignalR.Tests
             await _connectionStore.StoreConnectionAsync(connectionIdB, userIdA);
             var connectionIds = new List<string> { connectionIdA, connectionIdB };
 
-            Assert.True((await _connectionStore.GetClients(connectionIds)).Select(x => x.ConnectionId).Contains(connectionIdA));
-            Assert.True((await _connectionStore.GetClients(connectionIds)).Select(x => x.ConnectionId).Contains(connectionIdB));
+            Assert.Contains(connectionIdA, (await _connectionStore.GetClients(connectionIds)).Select(x => x.ConnectionId));
+            Assert.Contains(connectionIdB, (await _connectionStore.GetClients(connectionIds)).Select(x => x.ConnectionId));
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace Amazon.Lambda.SignalR.Tests
             await _connectionStore.StoreConnectionAsync(connectionIdB, userIdA);
             var connectionIds = new List<string> { connectionIdA };
 
-            Assert.True((await _connectionStore.GetAllClientsExcept(connectionIds)).Select(x => x.ConnectionId).Contains(connectionIdB));
+            Assert.Contains(connectionIdB, (await _connectionStore.GetAllClientsExcept(connectionIds)).Select(x => x.ConnectionId));
             Assert.True(!(await _connectionStore.GetAllClientsExcept(connectionIds)).Select(x => x.ConnectionId).Contains(connectionIdA));
         }
 
@@ -151,8 +151,8 @@ namespace Amazon.Lambda.SignalR.Tests
             await _connectionStore.StoreConnectionAsync(connectionIdA, userIdB);
             var userIds = new List<string> { userIdA, userIdB };
 
-            Assert.True((await _connectionStore.GetUsers(userIds)).Select(x => x.UserId).Contains(userIdA));
-            Assert.True((await _connectionStore.GetUsers(userIds)).Select(x => x.UserId).Contains(userIdB));
+            Assert.Contains(userIdA, (await _connectionStore.GetUsers(userIds)).Select(x => x.UserId));
+            Assert.Contains(userIdB, (await _connectionStore.GetUsers(userIds)).Select(x => x.UserId));
         }
     }
 }

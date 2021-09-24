@@ -42,7 +42,7 @@ namespace Amazon.Lambda.SignalR
                 }
                 else if (sendResult.HttpStatusCode == HttpStatusCode.Gone)
                 {
-                    Task.Run(() => _connectionStore.RemoveConnectionAsync(connectionId));
+                    await _connectionStore.RemoveConnectionAsync(connectionId);
                 }
                 else
                 {
@@ -66,7 +66,7 @@ namespace Amazon.Lambda.SignalR
             {
                 _logger.LogError($"Error4 sending message to connectionId: {connectionId}, {e.Message.ToString()} ,{e.InnerException?.Message?.ToString()}");
             }
-            catch (ObjectDisposedException e)
+            catch (ObjectDisposedException)
             {
                 _logger.LogWarning($"Removing connectionId: {connectionId} from store.");
                 await _connectionStore.RemoveConnectionAsync(connectionId);

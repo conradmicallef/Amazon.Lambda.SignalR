@@ -12,7 +12,6 @@ namespace Amazon.Lambda.SignalR
         private readonly Func<IAWSSocketConnectionStore<SocketConnection>, Task<List<SocketConnection>>> _getConnections;
         private readonly IAWSSocketConnectionStore<SocketConnection> _connectionStore;
         private readonly IAWSSocketManager _awsSocketManager;
-        private ILogger<AWSClientProxy> _logger;
 
         public AWSClientProxy(Func<IAWSSocketConnectionStore<SocketConnection>, Task<List<SocketConnection>>> getConnections,
             IAWSSocketConnectionStore<SocketConnection> connectionStore,
